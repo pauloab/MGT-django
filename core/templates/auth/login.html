@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+
+<div class="py-5 container-auth">
+  <h1>Iniciar sesión</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ login_form|crispy }}
+    <button class="btn btn-primary w-100 my-3" type="submit">Iniciar sesión</button>
+    <p class="text-center">Aún no tienss una cuenta? <a href="/register">Regístrate</a>.</p>
+  </form>
+</div>
+
+{% endblock %}

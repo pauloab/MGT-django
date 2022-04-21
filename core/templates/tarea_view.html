@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}Tareas{% endblock %}
+{% block content %}
+<div class="">
+
+</div>
+<div class="card p-3 shadow my-3">
+    <div class="card-body">
+        <div class="form-group">
+            <h3 class="text-center">Tarea #{{tarea.id}}</h3>
+            <p><b>Nombre: </b>{{ object.nombre }}</p>
+            <p><b>Tipo: </b>{{ object.tipo }}</p>
+            <p><b>Fecha de Agregado: </b>{{ object.fecha_agregado }}</p>
+            <p><b>Fecha de Entrega: </b>{{ object.fecha_tarea }}</p>
+            <p><b>Notas Adicionales: </b> <br/></p>
+            {{ object.notas_adicionales }}
+            </p>
+            <p><b>Valor Acordado: </b>{{ object.valor_acordado }}</p>
+            <p><b>Estado: </b>{% if object.cancelado %}SI{% else %}NO{% endif %}</p>
+        </div>
+        <a class="btn btn-primary w-100" href="{% url 'list_tasks' %}">Regresar a la lista</a>
+    </div>
+</div>
+{% endblock %}

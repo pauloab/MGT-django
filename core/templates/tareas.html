@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Tareas{% endblock %}
+{% block content %}
+
+    <a href="{% url 'create_task' %}" class="btn btn-primary my-3" >Nueva Tarea</a>
+
+    {% if not object_list %}
+    <div class="alert alert-danger">No existen tareas actualmente</div>
+    {% else %}
+    <table class="table">
+        <thead>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Fecha Tarea</th>
+            <th>Valor</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </thead>
+        <tbody id="task-table-body">
+            {% for tarea in object_list %}
+            <tr>
+                <td>{{ tarea.nombre }}</td>
+                <td>{{ tarea.get_tipo }}</td>
+                <td>{{ tarea.fecha_tarea|date:"m/d/Y" }}</td>
+                <td>${{ tarea.valor_acordado }}</td>
+                <td>{% if tarea.cancelado %}Pagado{% else %}No pagado{% endif %}</td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'view_task' tarea.id %}">Ver</a>
+                    <a class="btn btn-secondary" href="{% url 'edit_task' tarea.id %}">Editar</a>
+                    <a class="btn btn-danger"  href="{% url 'delete_task' tarea.id %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex flex-row-reverse">
+        <p class="mx-2" id="totalGanancia"></p>
+        <b>Ganancia actual: </b>
+
+    </div>
+    <script>
+        var tbody = document.getElementById("task-table-body");
+        var totalAcordado = 0;
+        for(let i= 0; i< tbody.children.length; i++){
+            var valorAcordadoElem = tbody.children[i].children[3];
+            var estadoElem = tbody.children[i].children[4];
+            var valorAcordado = valorAcordadoElem.innerHTML.toString();
+            var estado = estadoElem.innerHTML.toString();
+            totalAcordado += estado.toLowerCase() === "pagado" ? 
+                                parseFloat(valorAcordado.substring(1,valorAcordado.length))
+                                : 0;
+        }
+        document.getElementById("totalGanancia").innerHTML = "$"+totalAcordado.toFixed(2);
+    </script>
+    {% endif %}
+{% endblock %}
