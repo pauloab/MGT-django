@@ -63,6 +63,16 @@ def delete_task(request, pk):
         return Http404()
     return HttpResponseBadRequest() 
 
+def pay_task(request, pk):
+    if request.method == 'GET':
+        task = Tarea.objects.get(id=pk, user=request.user)
+        if task:
+            task.cancelado = True
+            task.save()
+            return redirect('list_tasks')
+        return Http404()
+    return HttpResponseBadRequest() 
+
 class createTask(LoginRequiredMixin, CreateView):
     template_name = 'tarea.html'
     form_class = TareaForm

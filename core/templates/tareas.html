@@ -30,7 +30,10 @@
                 <td>
                     <a class="btn btn-primary" href="{% url 'view_task' tarea.id %}">Ver</a>
                     <a class="btn btn-secondary" href="{% url 'edit_task' tarea.id %}">Editar</a>
-                    <a class="btn btn-danger"  href="{% url 'delete_task' tarea.id %}">Eliminar</a>
+                    {% if not tarea.cancelado %}
+                    <a class="btn btn-dark" href="{% url 'pay_task' tarea.id %}">Pagar</a>
+                    {% endif %}
+                    <a class="btn btn-close float-end" href="{% url 'delete_task' tarea.id %}"></a>
                 </td>
             </tr>
             {% endfor %}
